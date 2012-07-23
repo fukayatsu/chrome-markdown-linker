@@ -1,6 +1,6 @@
 {
   "name": "Markdown Linker",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "manifest_version": 2,
   "description": "Make it easy to copy links with markdown-format",
   "icons": { "48": "icon/icon_048.png",
@@ -8,5 +8,9 @@
   "background": {
     "page": "background.html"
   },
+  "content_scripts": [{
+    "matches": ["<all_urls>"],
+    "js": ["content_script.js"]
+  }],
   "permissions": ["contextMenus", "tabs"]
 }
