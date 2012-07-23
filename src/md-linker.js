@@ -8,17 +8,22 @@ function copy(text) {
 function genericOnClick(info, tab) {
   console.log(info);
 
-  if(info.linkUrl == null){
+  if(info.srcUrl != null){
+    // image
+    // TODO get alt text
+    copy("![" + "alt" + "](" + info.srcUrl + ")");
+
+  }else if(info.linkUrl != null){
+    // text link
+    var text = info.selectionText || ""
+    copy("[" + text + "](" + info.linkUrl + ")");
+
+  }else{
     // page
     chrome.tabs.getSelected(null, function(tab){
       copy("[" + tab.title + "](" + info.pageUrl + ")")
     });
-  }else if(info.mediaType != null && info.mediaType == 'image'){
-    // image
-    copy("![" + "" + "](" + info.linkUrl + ")");
-  }else{
-    // text link
-    copy("[" + info.selectionText + "](" + info.linkUrl + ")");
+
   }
 }
 
