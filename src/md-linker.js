@@ -14,9 +14,10 @@ function copy(text) {
     "title": "Copy link with markdown-format",
     "contexts": ["image", "link", "page"],
     "onclick": function (info, tab) {
-      var alt = "";
+      var alt, text;
       if(REQUEST != null){
         alt = REQUEST.alt || "";
+        text = REQUEST.text || "";
         REQUEST = null;
       }
 
@@ -26,7 +27,7 @@ function copy(text) {
 
       }else if(info.linkUrl != null){
         // text link
-        var text = info.selectionText || ""
+        //var text = info.selectionText || ""
         copy("[" + text + "](" + info.linkUrl + ")");
 
       }else{
