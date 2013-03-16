@@ -7,12 +7,10 @@ document.addEventListener("contextmenu", function (e) {
           //width: elem.width,
           //height: elem.height
         });
-    }else{
-      if(elem.href && elem.text){
-        chrome.extension.sendRequest({
-          text: elem.text
-          //href: elem.href,
-        });
-      }
+    } else {
+      chrome.extension.sendRequest({
+        text: $(elem).text()
+        //href: elem.href,
+      });
     }
 }, true);
