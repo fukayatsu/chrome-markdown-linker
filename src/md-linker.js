@@ -45,8 +45,14 @@ function copy(text) {
   }
 }());
 
-chrome.extension.onRequest.addListener(
-    function(request, sender, sendResponse) {
-        REQUEST = request;
+chrome.extension.onMessage.addListener(
+  function(request, sender, sendResponse) {
+    if (request.method == "copyPage") {
+      chrome.tabs.getSelected(null, function(tab){
+        copy("[" + tab.title + "](" + tab.url + ")");
+      });
+    } else {
+      REQUEST = request;
     }
+  }
 );
