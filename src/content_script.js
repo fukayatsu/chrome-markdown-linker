@@ -1,4 +1,5 @@
 window.addEventListener('keydown', function(event) {
+  // Command + Ctrl + C
   if (!(event.keyCode == 67 && event.metaKey && event.ctrlKey)) { return; }
   chrome.extension.sendMessage({ action: "copyPage" });
 }, true);
@@ -26,11 +27,6 @@ document.addEventListener("contextmenu", function (event) {
     });
     chrome.extension.sendMessage({ action: "copySelection", links: links });
   } else {
-    // var $elem = $(event.srcElement);
-    // var text  = $elem.text();
-    // var href  = $elem.attr('href') || $elem.parent('a[href]').attr('href')
-    // var src   = $elem.attr('src')
-    // chrome.extension.sendMessage({ action: "copyElement", href: href, text: text, src: src });
     chrome.extension.sendMessage({ action: "copyElement" });
   }
 }, true);
