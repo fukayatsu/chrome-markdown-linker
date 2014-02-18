@@ -12,7 +12,7 @@ function copy(text) {
   var props = {
     //"title": chrome.i18n.getMessage('title'),
     "title": "Copy link with markdown-format",
-    "contexts": ["image", "link", "page"],
+    "contexts": ["image", "link", "page", "selection"],
     "onclick": function (info, tab) {
       var alt, text;
       if(REQUEST != null){
