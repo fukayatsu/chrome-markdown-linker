@@ -1,58 +1,57 @@
-var REQUEST = null;
-var CONTEXT = null;
-
-function copy(text) {
-  var clip = document.getElementById("clipboard_area");
-  clip.value = text;
-  clip.select();
-  document.execCommand("copy");
+var copy = function(text) {
+  $('#clipboard_area').text(text)[0].select();
+  document.execCommand('Copy');
 }
-
-(function () {
-  var props = {
-    //"title": chrome.i18n.getMessage('title'),
-    "title": "Copy link with markdown-format",
-    "contexts": ["image", "link", "page", "selection"],
-    "onclick": function (info, tab) {
-      var alt, text;
-      if(REQUEST != null){
-        alt = REQUEST.alt || "";
-        text = REQUEST.text || "";
-        REQUEST = null;
+var copyPage = function() {
+  chrome.tabs.getSelected(null, function(tab){
+    copy("[" + tab.title + "](" + tab.url + ")");
+  });
+}
+var menuOptions = {
+  title: "Copy link with markdown-format",
+  contexts: ["image", "link", "page", "selection"],
+  onclick: function(target, tab) {
+    switch(lastRequest.action) {
+    case 'copyPage':
+      copyPage();
+      break;
+    case 'copyElement':
+      var url  = target.linkUrl;
+      var text = target.selectionText;
+      if (!target.srcUrl) {
+        copy("[" + text + "](" + url + ")")
+        break;
       }
 
-      if(info.srcUrl != null){
-        // image
-        copy("![" + alt + "](" + info.srcUrl + ")");
-
-      }else if(info.linkUrl != null){
-        // text link
-        //var text = info.selectionText || ""
-        copy("[" + text + "](" + info.linkUrl + ")");
-
-      }else{
-        // page
-        chrome.tabs.getSelected(null, function(tab){
-          copy("[" + tab.title + "](" + info.pageUrl + ")")
-        });
+      text = "![](" + target.srcUrl + ")"
+      if (url) {
+        copy("[" + text + "](" + url + ")")
+      } else {
+        copy(text)
       }
+      break;
+    case 'copySelection':
+      var str = "";
+      var links = lastRequest.links;
+      for (var i=0; i < links.length; i++) {
+        var link = links[i];
+        var text = link.text;
+        if (link.src) { text = "![](" + link.src + ")" }
+        str += "- [" + text +"](" + (link.href || '') + ")\n"
+      }
+      copy(str);
+      break;
     }
   }
-  if(CONTEXT){
-    chrome.contextMenus.update(CONTEXT, props);
-  }else{
-    CONTEXT = chrome.contextMenus.create(props);
-  }
-}());
-
+}
+var contextMenu = chrome.contextMenus.create(menuOptions);
+var lastRequest = {};
 chrome.extension.onMessage.addListener(
   function(request, sender, sendResponse) {
-    if (request.method == "copyPage") {
-      chrome.tabs.getSelected(null, function(tab){
-        copy("[" + tab.title + "](" + tab.url + ")");
-      });
+    if (request.action == 'copyPage') {
+      copyPage();
     } else {
-      REQUEST = request;
+      lastRequest = request;
     }
   }
 );
