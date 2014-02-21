@@ -18,6 +18,12 @@ var menuOptions = {
     case 'copyElement':
       var url  = target.linkUrl;
       var text = target.selectionText;
+
+      if (!url && !text && !target.srcUrl) {
+        copyPage();
+        break;
+      }
+
       if (!target.srcUrl) {
         copy("[" + text + "](" + url + ")")
         break;
