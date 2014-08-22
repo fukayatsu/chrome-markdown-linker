@@ -6,10 +6,12 @@ window.addEventListener('keydown', function(event) {
 
 document.addEventListener("contextmenu", function (event) {
   var selection = window.getSelection();
-  var selectionText = selection.toString();
 
   var linksInSelection = 0;
-  if (selection.rangeCount > 0) {
+  var text;
+  if (selection.rangeCount == 0) {
+    text = $(event.target).text() || $(event.target).parent().text()
+  } else {
     var clonedSelection = selection.getRangeAt(0).cloneContents();
     var div = document.createElement('div');
     div.appendChild(clonedSelection);
@@ -27,6 +29,6 @@ document.addEventListener("contextmenu", function (event) {
     });
     chrome.extension.sendMessage({ action: "copySelection", links: links });
   } else {
-    chrome.extension.sendMessage({ action: "copyElement" });
+    chrome.extension.sendMessage({ action: "copyElement", text: text });
   }
 }, true);

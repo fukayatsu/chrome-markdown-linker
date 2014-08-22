@@ -17,7 +17,7 @@ var menuOptions = {
       break;
     case 'copyElement':
       var url  = target.linkUrl;
-      var text = target.selectionText;
+      var text = target.selectionText || lastRequest.text;
 
       if (!url && !text && !target.srcUrl) {
         copyPage();
