@@ -22,7 +22,7 @@ document.addEventListener("contextmenu", function (event) {
     links = [];
     linksInSelection.each(function() {
       links.push({
-        href: $(this).attr('href'),
+        href: $(this).prop('href'),
         text: $(this).text(),
         src:  $(this).find('img').attr('src')
       });
