@@ -9,7 +9,7 @@ document.addEventListener("contextmenu", function (event) {
 
   var linksInSelection = 0;
   var text;
-  if (selection.rangeCount == 0 || selection.type === "Caret") {
+  if (selection.rangeCount == 0) {
     text = $(event.target).text() || $(event.target).parent().text()
   } else {
     var clonedSelection = selection.getRangeAt(0).cloneContents();
