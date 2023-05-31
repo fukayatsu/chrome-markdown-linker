@@ -1,25 +1,27 @@
 {
-  "name": "Markdown Linker",
-  "version": "0.2.4",
-  "manifest_version": 2,
-  "description": "Make it easy to copy links with markdown-format",
+  "manifest_version": 3,
+  "name": "SAMPLE: Me Talk Pretty",
+  "version": "1.0.2",
+  "description": "Add the Me Talk Pretty to Chrome Extension documentation articles",
+  "permissions": ["activeTab", "storage", "scripting", "tabs", "contextMenus"],
   "icons": {
-    "48": "icon/icon_048.png",
-    "128": "icon/icon_128.png"
+    "16": "icons/icon-16.png",
+    "32": "icons/icon-32.png",
+    "48": "icons/icon-48.png",
+    "128": "icons/icon-128.png"
   },
   "background": {
-    "page": "background.html"
+    "service_worker": "background.js"
   },
   "content_scripts": [{
     "matches": [
-      "<all_urls>"
+      "https://*/*"
     ],
     "js": [
       "jquery-2.1.0.min.js", "content_script.js"
     ]
   }],
-  "permissions": [
-    "contextMenus",
-    "tabs"
-  ]
+  "action": {
+    "default_popup": "popup.html"
+  }
 }
