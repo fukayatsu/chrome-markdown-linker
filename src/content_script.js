@@ -1,9 +1,23 @@
 (() => {
+  chrome.action.onClicked.addListener(
+    
+  )
   chrome.runtime.sendMessage({ action: "copyPage" });
 
-  chrome.runtime.onMessage.addListener(function(msg, _, sendResponse) {
-    log("Got message from background page: " + msg);
-  });
+  chrome.runtime.onMessage.addListener(
+    function(request, sender, sendResponse) {
+      console.log(`************* request: ${JSON.stringify(request)}`)
+
+      if (request.greeting === "hello"){
+        var dark = JSON.stringify(request.greeting)
+        console.log(`************* request.greeting: ${request.greeting}`)
+        document.getElementById('clipboard_area').textContent = dark
+      }
+
+
+
+    }
+  );
   
 })()
 
