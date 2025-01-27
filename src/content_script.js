@@ -40,10 +40,15 @@ document.addEventListener("contextmenu", function (event) {
   const selection = window.getSelection();
   let linksInSelection = [];
   let text = null;
-  const src  = event.target.src;
-  const url  = event.target.href;
+  let src  = event.target.src;
+  let url  = event.target.href;
 
-  if (selection.isCollapsed) {
+  const parentNode = event.target.parentNode;
+  if (parentNode?.tagName === 'A') {
+    text = parentNode.textContent;
+    url = parentNode.href;
+    src = parentNode.querySelector('img')?.src;
+  } else if (selection.isCollapsed) {
     text = event.target.textContent || event.target.parentNode?.textContent
   } else {
     const clonedSelection = selection.getRangeAt(0).cloneContents();
