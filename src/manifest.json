@@ -1,6 +1,6 @@
 {
   "name": "Markdown Linker",
-  "version": "0.3.0",
+  "version": "0.3.1",
   "manifest_version": 3,
   "description": "Make it easy to copy links with markdown-format",
   "icons": {
